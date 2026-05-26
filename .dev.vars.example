@@ -1,0 +1,46 @@
+# Development Environment Variables (LOKAL SAJA)
+# ===========================================
+# File ini KHUSUS untuk development lokal via `wrangler dev`.
+# Copy ke .dev.vars dan isi nilainya:
+#   cp .dev.vars.example .dev.vars
+#
+# File .dev.vars TIDAK akan dipakai saat deploy production.
+# Untuk production secret, gunakan `npx wrangler secret put <KEY>`.
+# Lihat .env.example untuk daftar lengkap key yang perlu diisi.
+# ===========================================
+
+# === WAJIB DIISI ===
+
+# JWT admin - minimal 32 karakter. Gunakan nilai lokal yang bisa dibuang.
+JWT_SECRET=dev-only-jwt-secret-change-me-32-chars-minimum
+
+# Pakasir payment gateway development/staging
+PAKASIR_PROJECT_SLUG=dev-pakasir-project
+PAKASIR_API_KEY=dev-pakasir-api-key
+
+# Telegram bot & log routing
+TELEGRAM_BOT_TOKEN=dev-telegram-bot-token
+TELEGRAM_CHAT_ID=dev-telegram-chat-id
+# Telegram topic ID didapat dari message_thread_id di forum group:
+TELEGRAM_TOPIC_ORDER=1
+TELEGRAM_TOPIC_SECURITY=2
+TELEGRAM_TOPIC_ADMIN=3
+
+# Environment untuk structured logging
+# development = local, production = saat deploy (JANGAN ubah ke production di file ini!)
+ENVIRONMENT=development
+
+# === OPSIONAL (boleh kosong) ===
+
+# CORS — origin tambahan selain origin Worker (boleh kosong)
+# Contoh: https://domain-a.com,https://domain-b.com
+CORS_ALLOWED_ORIGINS=
+
+# Image optimization — allowlist domain sumber gambar eksternal
+# Boleh kosong; default: images.pexels.com,i.ibb.co
+# Bisa diubah sesuai kebutuhan, misalnya: images.pexels.com,i.ibb.co,*.unsplash.com
+IMAGE_OPTIMIZE_ALLOWED_DOMAINS=
+
+# Shared key untuk request mutating non-browser (mis. webhook internal) tanpa Origin/Referer.
+# Kirim sebagai header: x-internal-key
+INTERNAL_WEBHOOK_KEY=dev-internal-webhook-key-change-me

@@ -1,0 +1,40 @@
+{
+	"name": "koperasi-twosra-backend",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"smoke": "node scripts/smoke-test.mjs",
+		"smoke:gateway": "node scripts/smoke-test.mjs --with-gateway",
+		"smoke:gateway:simulate": "node scripts/smoke-test.mjs --with-gateway --simulate-payment",
+		"smoke:admin-vendors": "node scripts/smoke-admin-vendors.mjs",
+		"smoke:frontend-structure": "node scripts/smoke-frontend-structure.mjs",
+		"audit:globals": "node scripts/audit-globals.mjs",
+		"race:reservation": "node scripts/reservation-race-test.mjs",
+		"test:rate-limit": "node scripts/rate-limit-test.mjs",
+		"cf-typegen": "wrangler types",
+		"lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
+		"lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" --fix",
+		"typecheck": "tsc --noEmit",
+		"deploy:production": "node scripts/deploy-production.mjs"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.13.0",
+		"@eslint/js": "^10.0.1",
+		"@types/node": "^25.5.0",
+		"@typescript-eslint/eslint-plugin": "^8.57.1",
+		"@typescript-eslint/parser": "^8.57.1",
+		"eslint": "^10.0.3",
+		"typescript": "^5.8.2",
+		"vitest": "^4.1.0",
+		"wrangler": "^4.74.0"
+	},
+	"dependencies": {
+		"bcryptjs": "^3.0.3",
+		"hono": "^4.12.8"
+	}
+}

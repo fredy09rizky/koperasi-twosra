@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0e0f0c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="profile-img-96.png">
+    <link rel="icon" type="image/png" sizes="80x80" href="profile-img-80.png">
+    <link rel="shortcut icon" href="profile-img.png">
+    <link rel="apple-touch-icon" href="profile-img-96.png">
+    <meta name="description"
+        content="Dashboard admin Koperasi TWOSRA SMK Negeri 2 Sragen. Kelola produk, pesanan, dan statistik.">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin - Koperasi Sekolah TWOSRA</title>
+    <!-- Menggunakan stylesheet utama -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- M-06: CSS admin diekstrak ke file terpisah untuk caching dan maintainability -->
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin.forms.css">
+    <link rel="stylesheet" href="css/storefront.css">
+</head>
+
+<body>
+
+    <!-- Login View -->
+    <div id="view-login" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="login-brand-mark">
+                    <img src="profile-img.png" alt="Logo Koperasi TWOSRA SMK Negeri 2 Sragen">
+                </div>
+                <p class="login-kicker">Koperasi SMK Negeri 2 Sragen</p>
+                <h2 class="login-title">Dashboard Admin</h2>
+                <p class="login-subtitle">Kelola pesanan, produk, laporan, dan status operasional dari satu panel
+                    terpusat.</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group form-group-spaced">
+                    <label class="form-label" for="adminUsername">Username Admin</label>
+                    <input type="text" id="adminUsername" class="form-input" required placeholder="Contoh: admin"
+                        autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="adminPassword">Password Admin</label>
+                    <div class="password-input-wrap login-password-wrap">
+                        <input type="password" id="adminPassword" class="form-input" required
+                            autocomplete="current-password" placeholder="Masukkan kata sandi...">
+                        <button type="button" class="btn btn-outline password-toggle-btn login-password-toggle"
+                            data-toggle-password="adminPassword" aria-label="Lihat password" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path
+                                    d="M2.75 12s3.35-5.75 9.25-5.75S21.25 12 21.25 12 17.9 17.75 12 17.75 2.75 12 2.75 12Z">
+                                </path>
+                                <circle cx="12" cy="12" r="3.25"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block login-submit">Masuk Dashboard</button>
+            </form>
+            <p class="login-security-note">Akses terbatas admin. Pastikan logout setelah selesai menggunakan perangkat
+                bersama.
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="admin-layout hidden">
+
+        <!-- Sidebar Navigasi -->
+        <aside class="admin-sidebar">
+            <h1 class="logo">Koperasi Admin</h1>
+            <nav class="nav-menu" role="tablist" aria-label="Navigasi admin" aria-orientation="vertical">
+                <button type="button" class="nav-item active" id="nav-orders" role="tab" aria-selected="true"
+                    aria-controls="tab-orders">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"></path>
+                            <path d="m4 7.5 8 4.5 8-4.5"></path>
+                            <path d="M12 12v9"></path>
+                        </svg>
+                    </span>
+                    <span>Pesanan</span>
+                </button>
+                <button type="button" class="nav-item" id="nav-products" role="tab" aria-selected="false"
+                    aria-controls="tab-products">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M5 5h9l5 5v9H5z"></path>
+                            <path d="M14 5v5h5"></path>
+                            <path d="M8 15h8"></path>
+                        </svg>
+                    </span>
+                    <span>Produk</span>
+                </button>
+                <button type="button" class="nav-item" id="nav-statistics" role="tab" aria-selected="false"
+                    aria-controls="tab-statistics">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M5 19V9"></path>
+                            <path d="M12 19V5"></path>
+                            <path d="M19 19v-7"></path>
+                            <path d="M3 19h18"></path>
+                        </svg>
+                    </span>
+                    <span>Statistik</span>
+                </button>
+                <button type="button" class="nav-item" id="nav-store-status" role="tab" aria-selected="false"
+                    aria-controls="tab-store-status">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path>
+                            <path d="M12 2v3"></path>
+                            <path d="M12 19v3"></path>
+                            <path d="M4.9 4.9 7 7"></path>
+                            <path d="m17 17 2.1 2.1"></path>
+                            <path d="M2 12h3"></path>
+                            <path d="M19 12h3"></path>
+                            <path d="M4.9 19.1 7 17"></path>
+                            <path d="m17 7 2.1-2.1"></path>
+                        </svg>
+                    </span>
+                    <span>Pengaturan</span>
+                </button>
+            </nav>
+            <button class="logout-btn-nav" id="btn-logout">Keluar</button>
+        </aside>
+
+        <!-- Konten Utama -->
+        <main class="admin-main">
+
+            <!-- Statistik (KPI + Grafik + Insight) -->
+            <div id="tab-statistics" class="hidden" role="tabpanel" aria-hidden="true">
+                <!-- Filter rentang tanggal statistik (dipakai modul admin.orders.*) -->
+                <div class="dashboard-header dashboard-header-wrap">
+                    <div>
+                        <h2>Statistik Koperasi</h2>
+                        <div class="stat-timezone-note">Semua periode statistik dihitung berdasarkan WIB (Asia/Jakarta).
+                        </div>
+                    </div>
+                    <div class="toolbar-inline">
+                        <span class="stat-toolbar-label">Filter KPI</span>
+                        <select id="stat-filter-date" class="form-input compact-select"
+                            aria-label="Filter rentang tanggal KPI utama">
+                            <option value="all">Semua Waktu</option>
+                            <option value="today">Hari Ini</option>
+                            <option value="yesterday">Kemarin</option>
+                            <option value="this_week">Minggu Ini</option>
+                            <option value="this_month" selected>Bulan Ini</option>
+                            <option value="this_year">Tahun Ini (s.d. hari ini)</option>
+                            <option value="custom">Pilih Tanggal Pasti...</option>
+                        </select>
+                        <div id="stat-custom-date" class="date-range-inline">
+                            <input type="date" id="stat-start-date" class="form-input date-input-compact">
+                            <span>-</span>
+                            <input type="date" id="stat-end-date" class="form-input date-input-compact">
+                        </div>
+                        <button class="btn btn-primary" id="btn-refresh-dashboard">Segarkan Data</button>
+                    </div>
+                </div>
+
+                <!-- KPI ringkas (gross, fee, net, jumlah order, avg fee) -->
+                <div class="stats-kpi-grid">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="M6 4h6a4 4 0 0 1 0 8H6z"></path>
+                                    <path d="M6 12h5.5a4 4 0 0 1 0 8H6z"></path>
+                                    <path d="M6 4v16"></path>
+                                    <path d="M5 8h8"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Total Pendapatan Kotor</div>
+                            <div id="stat-gross" class="stat-value">Rp0</div>
+                            <div class="stat-sub">Subtotal barang ditambah fee QRIS.</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                                    <path d="M3 10h18"></path>
+                                    <path d="M7 14h5"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Pendapatan Bersih Koperasi</div>
+                            <div id="stat-net" class="stat-value">Rp0</div>
+                            <div class="stat-sub">Nilai barang yang benar-benar masuk ke koperasi.</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="m4 17 5-5 4 4 7-7"></path>
+                                    <path d="M16 9h4v4"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Rata-rata Pembayaran / Pesanan</div>
+                            <div id="stat-aov" class="stat-value">Rp0</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"></path>
+                                    <path d="m4 7.5 8 4.5 8-4.5"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Total Pesanan Lunas</div>
+                            <div id="stat-orders" class="stat-value">0</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="M8 8h8"></path>
+                                    <path d="M8 12h8"></path>
+                                    <path d="M8 16h8"></path>
+                                    <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Total Item Terjual</div>
+                            <div id="stat-items-sold" class="stat-value">0</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 7v10"></path>
+                                    <path d="M9 10h6"></path>
+                                    <path d="M9 14h6"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-label">Total Fee QRIS</div>
+                            <div id="stat-fee" class="stat-value">Rp0</div>
+                            <div class="stat-sub">Akumulasi fee dari keseluruhan transaksi.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafik utama: omzet & jumlah order -->
+                <div class="stats-charts-grid">
+                    <div class="card">
+                        <div class="card-header stat-card-header">
+                            <div>
+                                <h3>Omzet vs Waktu</h3>
+                                <p class="stat-caption" id="stat-revenue-caption">Menampilkan tren pendapatan.</p>
+                            </div>
+                            <select id="stat-revenue-filter-date" class="form-input compact-select stat-filter-select"
+                                aria-label="Filter periode grafik omzet">
+                                <option value="today">Hari Ini</option>
+                                <option value="yesterday">Kemarin</option>
+                                <option value="this_week">Minggu Ini</option>
+                                <option value="this_month" selected>Bulan Ini</option>
+                                <option value="this_year">Tahun Ini (s.d. hari ini)</option>
+                            </select>
+                        </div>
+                        <div class="card-body stat-chart-body">
+                            <canvas id="stat-chart-revenue"></canvas>
+                            <div id="stat-revenue-empty" class="stat-empty">Belum ada data pendapatan.</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header stat-card-header">
+                            <div>
+                                <h3>Pesanan vs Waktu</h3>
+                                <p class="stat-caption" id="stat-orders-caption">Menampilkan tren jumlah pesanan.</p>
+                            </div>
+                            <select id="stat-orders-filter-date" class="form-input compact-select stat-filter-select"
+                                aria-label="Filter periode grafik jumlah pesanan">
+                                <option value="today">Hari Ini</option>
+                                <option value="yesterday">Kemarin</option>
+                                <option value="this_week">Minggu Ini</option>
+                                <option value="this_month" selected>Bulan Ini</option>
+                                <option value="this_year">Tahun Ini (s.d. hari ini)</option>
+                            </select>
+                        </div>
+                        <div class="card-body stat-chart-body">
+                            <canvas id="stat-chart-orders"></canvas>
+                            <div id="stat-orders-empty" class="stat-empty">Belum ada data pesanan.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insight cepat: top produk & stok kritis -->
+                <div class="stats-insights-grid">
+                    <div class="card">
+                        <div class="card-header stat-card-header">
+                            <div>
+                                <h3>Top Produk Terlaris</h3>
+                                <p class="stat-caption">Berdasarkan jumlah terjual.</p>
+                            </div>
+                            <div class="stat-header-controls">
+                                <select id="stat-top-filter-date" class="form-input compact-select stat-filter-select"
+                                    aria-label="Filter periode top produk terlaris">
+                                    <option value="today">Hari Ini</option>
+                                    <option value="yesterday">Kemarin</option>
+                                    <option value="this_week">Minggu Ini</option>
+                                    <option value="this_month" selected>Bulan Ini</option>
+                                    <option value="this_year">Tahun Ini (s.d. hari ini)</option>
+                                </select>
+                                <span id="stat-top-summary" class="stat-pill">0 item terjual</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="stat-filter-note stat-filter-note-left">Filter di atas hanya berlaku untuk Top
+                                Produk Terlaris.</p>
+                            <ul id="stat-top-products" class="stat-list"></ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header stat-card-header">
+                            <div>
+                                <h3>Stok Kritis</h3>
+                                <p class="stat-caption">Perlu restok segera.</p>
+                            </div>
+                            <span class="stat-pill">≤ 5</span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="stat-low-stock" class="stat-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pengaturan -->
+            <div id="tab-store-status" class="hidden" role="tabpanel" aria-hidden="true">
+                <div class="dashboard-header dashboard-header-wrap">
+                    <div>
+                        <h2>Pengaturan Operasional & Keamanan</h2>
+                        <div class="stat-timezone-note">Atur penerimaan pesanan dan keamanan akun admin dari satu menu
+                            terpusat.</div>
+                    </div>
+                    <div class="toolbar-inline">
+                        <button class="btn btn-outline" id="btn-refresh-store-status">Segarkan Status</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Kontrol Penerimaan Pesanan</h3>
+                        <span id="store-status-badge" class="store-status-badge store-status-badge-open">BUKA</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="store-status-grid">
+                            <div class="store-panel store-panel-neutral">
+                                <div class="store-panel-label">Status Saat Ini</div>
+                                <div id="store-status-title" class="store-panel-title">Web sedang menerima pesanan baru.
+                                </div>
+                                <div id="store-status-desc" class="store-panel-desc">Siswa dapat membuat checkout baru
+                                    seperti biasa.</div>
+                            </div>
+                            <div class="store-panel store-panel-warm">
+                                <div class="store-panel-label store-panel-label-warm">Perubahan Terakhir</div>
+                                <div class="store-panel-meta">
+                                    <div>Waktu: <strong id="store-status-updated-at">-</strong></div>
+                                    <div>Oleh: <strong id="store-status-updated-by">-</strong></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="store-metric-grid">
+                            <div class="store-panel store-panel-blue">
+                                <div class="store-panel-label store-panel-label-blue">Checkout Aktif</div>
+                                <div id="store-status-active-checkout" class="store-metric-value">0</div>
+                            </div>
+                            <div class="store-panel store-panel-orange">
+                                <div class="store-panel-label store-panel-label-orange">Sudah Masuk QRIS</div>
+                                <div id="store-status-active-qris" class="store-metric-value">0</div>
+                            </div>
+                        </div>
+
+                        <div id="store-status-warning" class="alert-warning hidden store-status-warning">
+                            <strong>Perhatian:</strong>
+                            <div id="store-status-warning-text" class="store-status-warning-text"></div>
+                        </div>
+
+                        <div class="store-status-actions">
+                            <button type="button" class="btn btn-primary" id="btn-toggle-store-status">Tutup Penerimaan
+                                Pesanan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Keamanan Akun Admin</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="settings-note">
+                            Ganti password admin secara berkala untuk menjaga keamanan. Setelah password berhasil
+                            diubah, semua sesi login aktif akan diakhiri dan Anda harus login ulang.
+                        </p>
+
+                        <form id="admin-password-form" class="password-settings-form">
+                            <div class="password-field">
+                                <label for="adminCurrentPassword">Password Lama</label>
+                                <div class="password-input-wrap">
+                                    <input id="adminCurrentPassword" type="password" class="form-input"
+                                        autocomplete="current-password" required>
+                                    <button type="button" class="btn btn-outline password-toggle-btn"
+                                        data-toggle-password="adminCurrentPassword" aria-label="Lihat password"
+                                        aria-pressed="false">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                            <path
+                                                d="M2.75 12s3.35-5.75 9.25-5.75S21.25 12 21.25 12 17.9 17.75 12 17.75 2.75 12 2.75 12Z">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3.25"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="password-field">
+                                <label for="adminNewPassword">Password Baru</label>
+                                <div class="password-input-wrap">
+                                    <input id="adminNewPassword" type="password" class="form-input"
+                                        autocomplete="new-password" required minlength="12">
+                                    <button type="button" class="btn btn-outline password-toggle-btn"
+                                        data-toggle-password="adminNewPassword" aria-label="Lihat password"
+                                        aria-pressed="false">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                            <path
+                                                d="M2.75 12s3.35-5.75 9.25-5.75S21.25 12 21.25 12 17.9 17.75 12 17.75 2.75 12 2.75 12Z">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3.25"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="password-field">
+                                <label for="adminConfirmPassword">Konfirmasi Password Baru</label>
+                                <div class="password-input-wrap">
+                                    <input id="adminConfirmPassword" type="password" class="form-input"
+                                        autocomplete="new-password" required minlength="12">
+                                    <button type="button" class="btn btn-outline password-toggle-btn"
+                                        data-toggle-password="adminConfirmPassword" aria-label="Lihat password"
+                                        aria-pressed="false">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                            <path
+                                                d="M2.75 12s3.35-5.75 9.25-5.75S21.25 12 21.25 12 17.9 17.75 12 17.75 2.75 12 2.75 12Z">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3.25"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="password-rules-box">
+                                <strong>Kriteria password baru:</strong>
+                                <ul class="password-rules-list">
+                                    <li>Minimal 12 karakter.</li>
+                                    <li>Wajib huruf besar, huruf kecil, angka, dan simbol.</li>
+                                    <li>Tidak boleh mengandung spasi.</li>
+                                    <li>Tidak boleh sama dengan password lama.</li>
+                                    <li>Tidak boleh mengandung username admin.</li>
+                                </ul>
+                            </div>
+
+                            <div class="password-action-row">
+                                <button type="submit" class="btn btn-danger" id="btn-change-password">Simpan Password
+                                    Baru</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Panduan Tindak Lanjut Pesanan</h3>
+                    </div>
+                    <div class="card-body store-guideline-stack">
+                        <div class="store-guideline-panel store-guideline-neutral">
+                            <strong class="store-guideline-title">Prinsip utama</strong>
+                            Pesanan yang sudah berhasil dibayar tetap dianggap valid meskipun setelah itu koperasi
+                            menutup penerimaan pesanan baru. Penutupan web hanya berlaku untuk checkout baru dan tidak
+                            otomatis membatalkan pesanan yang sudah dibayar.
+                        </div>
+
+                        <div class="store-guideline-panel store-guideline-warm">
+                            <strong class="store-guideline-title">Kapan admin perlu menindaklanjuti</strong>
+                            <ul class="store-guideline-list">
+                                <li>Stok fisik barang habis atau tidak mencukupi.</li>
+                                <li>Harga barang berubah tetapi belum diperbarui di sistem.</li>
+                                <li>Jadwal pengambilan terdampak libur atau penutupan koperasi yang panjang.</li>
+                                <li>Kondisi operasional lain yang membuat pesanan tidak dapat dipenuhi seperti semula.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="store-guideline-panel store-guideline-note">
+                            <strong class="store-guideline-title">Pilihan penyelesaian yang dapat ditawarkan</strong>
+                            <ul class="store-guideline-list store-guideline-list-spaced">
+                                <li>Menunggu sampai stok tersedia.</li>
+                                <li>Mengganti dengan barang lain yang disepakati.</li>
+                                <li>Mengubah jadwal pengambilan.</li>
+                                <li>Refund sesuai kesepakatan dengan pembeli.</li>
+                            </ul>
+                            <div>
+                                Jika pembeli memilih refund, nominal pengembalian dana adalah sebesar subtotal barang
+                                yang dipesan. Biaya layanan/payment gateway tidak termasuk refund karena dibayarkan
+                                kepada pihak ketiga dan bukan menjadi penerimaan bersih koperasi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesanan -->
+            <div id="tab-orders" role="tabpanel" aria-hidden="false">
+                <div class="dashboard-header orders-header">
+                    <div>
+                        <h2>Data Pesanan Masuk</h2>
+                        <div class="stat-timezone-note">Pantau transaksi lunas, jadwal ambil, dan status pengambilan.
+                        </div>
+                    </div>
+                    <div class="orders-actions">
+                        <button class="btn btn-outline orders-action-btn" id="btn-open-pdf-modal">
+                            Ekspor Laporan
+                        </button>
+                        <button class="btn btn-primary orders-action-btn" id="btn-refresh-orders">
+                            Segarkan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="orders-summary-grid" aria-label="Ringkasan pesanan">
+                    <div class="orders-summary-card">
+                        <span class="orders-summary-label">Total Pesanan</span>
+                        <strong id="orders-summary-total">0</strong>
+                    </div>
+                    <div class="orders-summary-card">
+                        <span class="orders-summary-label">Belum Diambil</span>
+                        <strong id="orders-summary-pending">0</strong>
+                    </div>
+                    <div class="orders-summary-card">
+                        <span class="orders-summary-label">Nilai Halaman Ini</span>
+                        <strong id="orders-summary-page-value">Rp0</strong>
+                    </div>
+                    <div class="orders-summary-card">
+                        <span class="orders-summary-label">Status Web</span>
+                        <strong id="orders-summary-store-status">Memuat</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header card-header-stacked">
+                        <div class="card-header-top">
+                            <h3>Riwayat Transaksi</h3>
+                            <select id="sort-orders" class="form-input select-orders-sort"
+                                aria-label="Urutan data pesanan">
+                                <option value="desc">Urutkan: Terbaru</option>
+                                <option value="asc">Urutkan: Terlama</option>
+                            </select>
+                        </div>
+
+                        <!-- Pencarian & Filter -->
+                        <div class="order-filter-bar">
+                            <div class="search-wrap">
+                                <input type="text" id="search-orders" class="form-input search-input"
+                                    aria-label="Cari pesanan berdasarkan ID transaksi, nama, atau WhatsApp"
+                                    placeholder="Cari ID transaksi, nama, WhatsApp...">
+                            </div>
+
+                            <select id="filter-orders-date" class="form-input filter-select"
+                                aria-label="Filter tanggal pesanan">
+                                <option value="all">Semua Waktu</option>
+                                <option value="today">Hari Ini</option>
+                                <option value="yesterday">Kemarin</option>
+                                <option value="this_week">Minggu Ini</option>
+                                <option value="this_month">Bulan Ini</option>
+                                <option value="this_year">Tahun Ini</option>
+                                <option value="custom">Pilih Tanggal Pasti...</option>
+                            </select>
+
+                            <div id="filter-orders-custom-date" class="date-range-inline">
+                                <input type="date" id="filter-orders-start" class="form-input input-grow">
+                                <span>-</span>
+                                <input type="date" id="filter-orders-end" class="form-input input-grow">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive orders-table-responsive">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-waktu">Waktu</th>
+                                    <th class="col-id">ID Transaksi</th>
+                                    <th>Pembeli</th>
+                                    <th class="col-belanja">Daftar Belanja</th>
+                                    <th class="col-total">Total & Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <tr>
+                                    <td colspan="5" class="table-empty">Memuat data pesanan...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="table-pagination">
+                        <button class="btn btn-secondary pagination-btn" id="btn-prev-page" disabled>Sebelumnya</button>
+                        <span id="page-info" class="page-info">Halaman 1
+                            dari 1</span>
+                        <button class="btn btn-secondary pagination-btn" id="btn-next-page"
+                            disabled>Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produk -->
+            <div id="tab-products" class="hidden" role="tabpanel" aria-hidden="true">
+                <div class="dashboard-header">
+                    <h2>Manajemen Produk</h2>
+                </div>
+
+                <!-- Form Tambah Produk -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="form-product-title">Tambah Produk Baru</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="add-product-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="pCode">Kode Unik (SKU)</label>
+                                    <input type="text" id="pCode" class="form-input" required placeholder="Contoh: P001"
+                                        maxlength="10">
+                                    <small class="field-hint">SKU 4–10 karakter, tanpa spasi (A–Z, 0–9, _ , -).</small>
+                                    <small id="pCodeError" class="form-error form-error-hidden"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="pName">Nama Lengkap Produk</label>
+                                    <input type="text" id="pName" class="form-input" required maxlength="40"
+                                        placeholder="Pensil 2B...">
+                                    <small class="field-hint">Maksimal 40 karakter, tanpa emoji.</small>
+                                    <small id="pNameError" class="form-error form-error-hidden"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="pPrice">Harga Jual (Rp)</label>
+                                    <input type="number" id="pPrice" class="form-input" required min="1" max="1000000"
+                                        placeholder="1000">
+                                    <small class="field-hint">Rentang 1–1.000.000.</small>
+                                    <small id="pPriceError" class="form-error form-error-hidden"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="pCategory">Kategori Utama</label>
+                                    <select id="pCategory" class="form-input" required>
+                                        <option value="Alat Tulis">Alat Tulis</option>
+                                        <option value="Seragam">Seragam</option>
+                                        <option value="Aksesoris">Aksesoris</option>
+                                        <option value="Makanan/Minuman">Makanan/Minuman</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="pStock">Stok Asli (Fisik)</label>
+                                    <input type="number" id="pStock" class="form-input" required min="1" max="1000"
+                                        placeholder="1">
+                                    <small class="field-hint">Rentang 1–1000. Stok reservasi checkout dihitung otomatis
+                                        oleh sistem.</small>
+                                    <small id="pStockError" class="form-error form-error-hidden"></small>
+                                </div>
+                                <div class="form-group form-group-full">
+                                    <label class="form-label">Metode Input Gambar</label>
+                                    <div class="img-method-box">
+                                        <label class="img-method-option">
+                                            <input type="radio" name="pImgMethod" value="url" checked> Dari Tautan
+                                            URL
+                                        </label>
+                                        <label class="img-method-option">
+                                            <input type="radio" name="pImgMethod" value="upload"> Unggah Manual
+                                        </label>
+                                    </div>
+
+                                    <div id="pImgUrlWrapper">
+                                        <label class="form-label" for="pImg">Tautan Gambar (URL Tepercaya)</label>
+                                        <input type="text" id="pImg" class="form-input" inputmode="url"
+                                            placeholder="https://contohgambar.com/gambar.jpg">
+                                        <small id="pImgPolicyHint" class="field-hint">Domain URL gambar eksternal harus
+                                            termasuk daftar domain yang diizinkan server.</small>
+                                        <small id="pImgError" class="form-error form-error-hidden"></small>
+                                    </div>
+
+                                    <div id="pImgUploadWrapper" class="upload-panel-hidden">
+                                        <label class="form-label" for="pImgFile">Pilih Gambar Produk (Max
+                                            3MB)</label>
+                                        <input type="file" id="pImgFile" class="form-input upload-input"
+                                            accept="image/png, image/jpeg, image/jpg, image/webp">
+                                        <div class="upload-guidance">
+                                            Format yang didukung: PNG, JPG/JPEG, dan WebP.<br>
+                                            Rekomendasi ukuran: rasio kotak `1:1`, minimal `1200 x 1200 px`.<br>
+                                            Supaya gambar tidak banyak terpotong di katalog, letakkan objek utama di
+                                            tengah dan sisakan ruang aman sekitar `10-15%` dari tepi gambar.
+                                        </div>
+                                        <div id="pImgPreview" class="preview-box">
+                                            <img src="" alt="Preview" class="preview-image">
+                                            <p id="pImgFileStatus" class="preview-status"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-form-actions">
+                                <button type="button" id="btn-cancel-edit"
+                                    class="btn btn-secondary hidden product-form-btn">Batal Edit</button>
+                                <button type="submit" id="btn-submit-product"
+                                    class="btn btn-primary product-form-btn">Simpan Produk</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Daftar Produk -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Katalog Produk Aktif</h3>
+                        <button class="btn btn-outline refresh-products-btn" id="btn-refresh-products">Segarkan</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Info Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Stok Asli</th>
+                                    <th>Direservasi</th>
+                                    <th>Tersedia</th>
+                                    <th>Harga Jual</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody">
+                                <tr>
+                                    <td colspan="7" class="table-empty">Memuat katalog produk...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <button class="btn btn-secondary pagination-btn" id="btn-prev-product-page"
+                            disabled>Sebelumnya</button>
+                        <span id="product-page-info" class="page-info">Menampilkan 0 data</span>
+                        <button class="btn btn-secondary pagination-btn" id="btn-next-product-page"
+                            disabled>Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal Ekspor PDF -->
+    <div id="pdf-modal-overlay" class="hidden pdf-overlay" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title">
+        <div class="login-card pdf-modal-card">
+            <div class="pdf-modal-header">
+                <h3 class="pdf-modal-title">Ekspor Laporan</h3>
+                <button id="btn-close-pdf-modal" class="pdf-close-btn" type="button"
+                    aria-label="Tutup modal ekspor">&#10006;</button>
+            </div>
+
+            <div class="form-group pdf-form-group">
+                <label class="form-label">Urutkan Data</label>
+                <select id="pdf-sort-order" class="form-input pdf-select">
+                    <option value="desc">Urutkan: Terbaru ke Terlama</option>
+                    <option value="asc">Urutkan: Terlama ke Terbaru</option>
+                </select>
+            </div>
+
+            <div class="form-group pdf-form-group">
+                <label class="form-label">Rentang Waktu</label>
+                <select id="pdf-filter-date" class="form-input pdf-select">
+                    <option value="all">Semua Waktu</option>
+                    <option value="today">Hari Ini</option>
+                    <option value="yesterday">Kemarin</option>
+                    <option value="this_week">Minggu Ini</option>
+                    <option value="this_month">Bulan Ini</option>
+                    <option value="this_year">Tahun Ini</option>
+                    <option value="custom">Pilih Tanggal Pasti...</option>
+                </select>
+            </div>
+
+            <div id="pdf-custom-date" class="form-grid date-range-inline pdf-custom-grid">
+                <div class="form-group">
+                    <label class="form-label">Tanggal Mulai</label>
+                    <input type="date" id="pdf-start-date" class="form-input pdf-select">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tanggal Akhir</label>
+                    <input type="date" id="pdf-end-date" class="form-input pdf-select">
+                </div>
+            </div>
+
+            <div class="pdf-validation">
+                <p id="pdf-validation-msg" class="pdf-validation-text">Klik 'Periksa Data' untuk memvalidasi
+                    transaksi...</p>
+            </div>
+
+            <div class="pdf-actions">
+                <button type="button" id="btn-check-pdf" class="btn btn-secondary pdf-btn pdf-btn-strong">Periksa
+                    Data</button>
+            </div>
+            <div class="pdf-actions pdf-download-actions">
+                <button type="button" id="btn-download-pdf" class="btn btn-primary pdf-btn pdf-btn-emphasis"
+                    disabled>Unduh PDF</button>
+                <button type="button" id="btn-download-csv" class="btn btn-outline pdf-btn pdf-btn-emphasis"
+                    disabled>Unduh CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="global-loading" class="global-loading" role="status" aria-live="polite">
+        <div class="global-loading-card">
+            <div class="spinner"></div>
+            <div data-loading-text>Memuat...</div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script type="module" src="js/admin.entry.module.js"></script>
+
+</body>
+
+</html>

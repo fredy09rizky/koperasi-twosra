@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0e0f0c">
+    <link rel="icon" type="image/png" sizes="96x96" href="profile-img-96.png">
+    <link rel="icon" type="image/png" sizes="80x80" href="profile-img-80.png">
+    <link rel="shortcut icon" href="profile-img.png">
+    <link rel="apple-touch-icon" href="profile-img-96.png">
+    <title>Verifikasi Transaksi - Koperasi TWOSRA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/verifikasi.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content verif-navbar-centered">
+            <button type="button" class="logo-container" id="logo-container" data-nav="/" aria-label="Kembali ke halaman utama">
+                <img src="profile-img-56.png" srcset="profile-img-56.png 56w, profile-img-80.png 80w, profile-img-96.png 96w" sizes="56px" alt="Logo Sekolah" id="logo-sekolah" class="logo-img" width="40" height="40"
+                    fetchpriority="high" decoding="async">
+                <span class="logo-text">Koperasi TWOSRA</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="verif-main">
+        <div class="verification-container verif-mode-loading">
+            <div class="verif-stripe"></div>
+            <div class="verif-body">
+                <div id="verif-live-region" class="sr-status" aria-live="polite" aria-atomic="true"></div>
+
+                <!-- 1. Status Loading -->
+                <div id="state-loading" class="verif-state active">
+                    <div class="state-loading-wrap">
+                        <div class="spinner"></div>
+                        <h2>Memverifikasi Transaksi...</h2>
+                        <p>Sedang mencocokkan data dengan database server Koperasi.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Status Sukses -->
+                <div id="state-success" class="verif-state">
+                    <div class="status-header">
+                        <div class="status-icon-wrap success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                                fill="none" stroke="var(--success-color)" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h2 class="status-title-success">Transaksi Sah</h2>
+                        <p>Bukti pembayaran cocok dengan catatan database server koperasi.</p>
+                    </div>
+
+                    <table class="verif-detail-table">
+                        <tr>
+                            <td>ID Transaksi</td>
+                            <td><span id="v-trx-id" class="trx-id-text">-</span></td>
+                        </tr>
+                        <tr>
+                            <td>Status Bayar</td>
+                            <td><span id="v-status" class="badge-status paid">LUNAS</span></td>
+                        </tr>
+                        <tr>
+                            <td>Status Pengambilan</td>
+                            <td><span id="v-pickup-status" class="badge-status pickup-pending">BELUM DIAMBIL</span></td>
+                        </tr>
+                        <tr>
+                            <td>Nama Pembeli</td>
+                            <td id="v-nama" class="text-capitalize">-</td>
+                        </tr>
+                        <tr>
+                            <td>Kelas</td>
+                            <td id="v-kelas">-</td>
+                        </tr>
+                        <tr>
+                            <td>Jadwal Ambil</td>
+                            <td id="v-jadwal">-</td>
+                        </tr>
+                        <tr>
+                            <td>Waktu Pengambilan</td>
+                            <td id="v-picked-up-at">-</td>
+                        </tr>
+                        <tr>
+                            <td>Tercatat di Sistem</td>
+                            <td id="v-waktu-dibuat">-</td>
+                        </tr>
+                    </table>
+
+                    <p class="items-section-label">Rincian Barang</p>
+                    <div id="v-items" class="item-list">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <div class="total-box">
+                        <span class="total-label">Total Pembayaran</span>
+                        <span id="v-total-amount">Rp0</span>
+                    </div>
+
+                    <div class="verif-stamp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        Terverifikasi oleh Sistem Koperasi TWOSRA
+                    </div>
+                </div>
+
+                <!-- 3. Status Gagal -->
+                <div id="state-error" class="verif-state">
+                    <div class="status-header">
+                        <div class="status-icon-wrap danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                                fill="none" stroke="var(--danger-color)" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </div>
+                        <h2 class="status-title-danger">Transaksi Ditolak</h2>
+                        <p id="error-message">Token verifikasi tidak valid atau sudah kedaluwarsa.</p>
+                    </div>
+
+                    <div class="error-warning-box">
+                        <p class="warn-title">Peringatan untuk Penjaga Koperasi:</p>
+                        <ul>
+                            <li>Bukti pembayaran atau kode QR ini tidak valid atau sudah kedaluwarsa.</li>
+                            <li>Jangan berikan barang pesanan apapun kepada pembawa bukti ini.</li>
+                            <li>Jika perlu bantuan, silakan hubungi admin koperasi.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tombol Kembali -->
+                <button class="verif-back-btn" data-nav="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Kembali ke Halaman Utama
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/logger.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/config.runtime.js"></script>
+    <script type="module" src="js/verifikasi.js"></script>
+</body>
+
+</html>
+
+

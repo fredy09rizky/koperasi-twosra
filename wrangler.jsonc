@@ -1,0 +1,49 @@
+{
+	"$schema": "https://www.schemastore.org/wrangler.json",
+	"name": "koperasi-twosra",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-03-12",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"triggers": {
+		// Cron 10 menit 24 jam (UTC). Release expired reservation selalu jalan.
+		// Purge baris reservasi lama dijalankan per jam oleh handler (saat menit ke-00 UTC).
+		"crons": ["*/10 * * * *"]
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "RATE_LIMITER",
+				"class_name": "RateLimiterDurableObject"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1-rate-limiter-do",
+			"new_sqlite_classes": ["RateLimiterDurableObject"]
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "koperasi_db",
+			"database_id": "ffd00b88-47b5-4e65-a667-e5bc3d5d388e"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "IMG_BUCKET",
+			"bucket_name": "images-bucket"
+		}
+	]
+}

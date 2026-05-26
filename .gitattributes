@@ -1,0 +1,40 @@
+# Default: normalisasi semua file teks ke LF agar commit dari Windows tetap rapi
+* text=auto eol=lf
+
+# Source code dan konfigurasi yang aktif di repo ini
+*.js text eol=lf
+*.ts text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.mts text eol=lf
+*.cts text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.jsonc text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.sql text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.svg text eol=lf
+*.ps1 text eol=lf
+*.cmd text eol=lf
+*.sh text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+*.editorconfig text eol=lf
+*.example text eol=lf
+
+# Aset biner
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.mp3 binary
+*.wasm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

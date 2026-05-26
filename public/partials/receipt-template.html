@@ -1,0 +1,134 @@
+<div id="receipt-container" class="receipt-template-host">
+    <div id="receipt" style="
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 45px;
+        background: #fff;
+        font-family: 'IBM Plex Mono', 'JetBrains Mono', 'Courier New', monospace;
+        color: #000;
+        line-height: 1.4;
+    ">
+        <div class="stamp-lunas" style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 90px;
+            font-weight: 900;
+            color: rgba(220, 38, 38, 0.50);
+            border: 6px solid rgba(220, 38, 38, 0.50);
+            border-radius: 15px;
+            padding: 15px 40px;
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: 12px;
+            font-family: 'Arial Black', sans-serif;
+        ">LUNAS</div>
+
+        <div class="r-header" style="text-align: center; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 15px;">
+            <img id="logo-img-receipt" src="profile-img-96.png" alt="Logo" class="r-logo"
+                style="width: 90px; height: auto; margin-bottom: 10px; object-fit: contain;">
+            <div class="r-title"
+                style="font-size: 22px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 0.5px; font-family: 'IBM Plex Mono', monospace;">
+                KOPERASI TWOSRA
+            </div>
+            <div class="r-subtitle" style="font-size: 13px; margin: 0; color: #444; font-weight: 500;">
+                SMK Negeri 2 Sragen
+            </div>
+        </div>
+
+        <div class="r-divider" style="border-top: 1px solid #000; margin: 8px 0;"></div>
+
+        <div class="r-info" style="margin-bottom: 15px; font-size: 12px; font-weight: 500;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">ID TRANSAKSI :</span>
+                <span id="r-receipt-number" style="text-align: right; word-break: break-word;">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">WAKTU :</span>
+                <span id="r-receipt-date" style="text-align: right; word-break: break-word;">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">PEMBELI :</span>
+                <span id="r-customer-name" style="text-align: right; word-break: break-word;">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">KELAS/UNIT :</span>
+                <span id="r-customer-class" style="text-align: right; word-break: break-word;">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">JADWAL AMBIL :</span>
+                <span id="r-jadwal-ambil" style="text-align: right; word-break: break-word;">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-weight: 600; width: 40%;">METODE :</span>
+                <span style="text-align: right; word-break: break-word;">QRIS Pakasir</span>
+            </div>
+        </div>
+
+        <div class="r-divider double" style="border-top: 2px solid #000; margin: 10px 0;"></div>
+
+        <div class="r-items">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; font-weight: 500;">
+                <thead>
+                    <tr>
+                        <th style="width: 50%; text-align: left; border-bottom: 1px solid #000; padding: 6px 0; font-weight: 700; font-size: 12px; letter-spacing: 0.3px;">ITEM</th>
+                        <th style="width: 20%; text-align: right; border-bottom: 1px solid #000; padding: 6px 0; font-weight: 700; font-size: 12px; letter-spacing: 0.3px;">QTY</th>
+                        <th style="width: 30%; text-align: right; border-bottom: 1px solid #000; padding: 6px 0; font-weight: 700; font-size: 12px; letter-spacing: 0.3px;">HARGA</th>
+                    </tr>
+                </thead>
+                <tbody id="r-items-body"></tbody>
+            </table>
+        </div>
+
+        <div class="r-divider double" style="border-top: 2px solid #000; margin: 10px 0;"></div>
+
+        <div class="r-total" style="margin-top: 12px; margin-bottom: 15px;">
+            <div class="r-fee-row" style="display: flex; justify-content: space-between; font-weight: 500; font-size: 13px; padding: 4px 0;">
+                <span>JUMLAH HARGA BARANG</span>
+                <span id="r-subtotal-amount">Rp0</span>
+            </div>
+            <div class="r-fee-row" style="display: flex; justify-content: space-between; font-weight: 500; font-size: 13px; padding: 4px 0;">
+                <span>BIAYA LAYANAN / QRIS (+ fee)</span>
+                <span id="r-fee-amount">Rp0</span>
+            </div>
+            <div class="r-total-row final" style="display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; padding: 10px 5px; border-top: 2px solid #000; border-bottom: 2px solid #000; background: #f9f9f9; margin-top: 5px;">
+                <span>TOTAL DIBAYAR (NET)</span>
+                <span id="r-total-amount">Rp0</span>
+            </div>
+        </div>
+
+        <div id="r-verification-section" class="r-verification" style="border-top: 1px solid #000; padding-top: 10px; margin-top: 12px; text-align: center; font-size: 10px;">
+            <div class="r-verification-title" style="font-weight: 700; font-size: 11px; margin-bottom: 6px;">
+                VERIFIKASI KEASLIAN TRANSAKSI
+            </div>
+            <div class="qr-container" style="display: flex; justify-content: center; margin: 8px 0;">
+                <div class="qr-box" id="r-qr-code" style="width: 180px; height: 180px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; box-sizing: border-box;">
+                    <style>
+                        #r-qr-code canvas,
+                        #r-qr-code img {
+                            width: 180px;
+                            height: 180px;
+                            display: block;
+                            max-width: 180px;
+                            max-height: 180px;
+                            object-fit: contain;
+                            image-rendering: pixelated;
+                        }
+                    </style>
+                </div>
+            </div>
+            <div id="r-qr-desc" class="qr-desc" style="font-size: 9px; line-height: 1.3; margin-top: 4px;">
+                Scan QR Code untuk verifikasi<br>
+                keaslian transaksi di sistem Koperasi
+            </div>
+        </div>
+
+        <div class="r-footer" style="text-align: center; margin-top: 15px; font-size: 11px; border-top: 1px solid #000; padding-top: 10px; line-height: 1.5; font-weight: 500;">
+            <div>TERIMA KASIH TELAH BERBELANJA</div>
+            <div>SIMPAN BUKTI PEMBAYARAN INI SEBAGAI AKSES PENGAMBILAN BARANG</div>
+        </div>
+    </div>
+</div>
