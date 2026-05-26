@@ -65,6 +65,11 @@ export class CheckoutForm {
 
         // Mencegah klik tombol beruntun
         this.isProcessingPayment = false;
+        // Mencegah handlePaymentSuccess() dipanggil paralel oleh polling tick
+        // setelah status 'completed' terdeteksi tapi POST /api/orders masih in-flight.
+        // Tanpa flag ini, race condition double-submit bisa membuat request kedua
+        // ditolak backend dengan SESSION_CONFLICT walau order pertama sudah tersimpan.
+        this.isFinalizingOrder = false;
         this.lastManualCheckTime = 0; // Anti-spam timer cek manual
 
         // Pasang sensor kejadian (event listener)

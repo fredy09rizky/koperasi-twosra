@@ -36,6 +36,8 @@ CheckoutForm.prototype.cleanupPaymentState = function cleanupPaymentState(cartAp
     this.recoveryRetryCount = 0;
     this.currentCheckoutToken = null;
     this.currentPaymentId = null;
+    // Reset flag finalisasi agar transaksi berikutnya tidak terblok guard idempoten.
+    this.isFinalizingOrder = false;
     this.form.reset();
     if (cartApi && typeof cartApi.removePurchasedItems === 'function') {
         cartApi.removePurchasedItems(this.currentOrderData?.selected_product_ids || []);
@@ -270,6 +272,15 @@ CheckoutForm.prototype.handleOrderSubmission = async function handleOrderSubmiss
 };
 
 CheckoutForm.prototype.handlePaymentSuccess = async function handlePaymentSuccess() {
+    // Guard idempoten: handler ini bisa dipicu beberapa kali oleh polling interval
+    // bila tick berikutnya dijalankan sebelum POST /api/orders pertama selesai.
+    // Tanpa guard, request kedua membuat backend menolak dengan SESSION_CONFLICT
+    // (race condition double-submit) walau order pertama sudah tersimpan.
+    if (this.isFinalizingOrder) {
+        return;
+    }
+    this.isFinalizingOrder = true;
+
     const apiBaseUrl = this.getApiBaseUrl();
     const logger = this.getLogger();
     const appInstance = getAppInstance();
@@ -400,6 +411,8 @@ CheckoutForm.prototype.cancelPayment = async function cancelPayment(reasonMsg, c
     this.currentCheckoutToken = null;
     this.currentPaymentId = null;
     this.currentOrderData = null;
+    // Reset flag finalisasi sehingga transaksi berikutnya tidak terblok guard.
+    this.isFinalizingOrder = false;
 
     if (reasonMsg) {
         await modal.alert(reasonMsg, "Pembayaran Ditolak", "error");

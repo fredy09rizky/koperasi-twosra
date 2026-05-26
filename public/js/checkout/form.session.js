@@ -163,6 +163,8 @@ CheckoutForm.prototype.resetPaymentState = function resetPaymentState(clearSessi
     this.currentCheckoutToken = null;
     this.currentPaymentId = null;
     this.currentOrderData = null;
+    // Reset flag finalisasi agar state baru bersih dari guard idempoten lama.
+    this.isFinalizingOrder = false;
 
     if (clearSessionStorage) {
         this.clearPendingPaymentSession();
